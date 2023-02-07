@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App JS 2.0</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <br />
+        <div class="row">
+
+            <div class="col-md-5">
+
+                <div class="card">
+                    <div class="card-header">
+                        Arreglos
+                    </div>
+                    <div class="card-body">
+
+                        <form action="javascript:void(0);" method="post" onsubmit="aplicacion.Agregar()">
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                    aria-describedby="helpId" placeholder="Nombre del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Telefono:</label>
+                                <input type="number" class="form-control" name="telefono" id="telefono"
+                                    aria-describedby="" placeholder="Telefono del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Arreglo:</label>
+                                <input type="text" class="form-control" name="arreglo" id="arreglo"
+                                    aria-describedby="" placeholder="Arreglo del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Precio:</label>
+                                <input type="text" class="form-control" name="precio" id="precio"
+                                    aria-describedby="" placeholder="Precio Total">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Abono:</label>
+                                <input type="text" class="form-control" name="abono" id="abono"
+                                    aria-describedby="" placeholder="Abono">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Estado:</label>
+                                    <select class="form-select form-select-lg" name="estado" id="estado">
+                                        <option value="1">Pendiente</option>
+                                        <option value="2">Arreglado</option>
+                                        <option value="3">Entregado</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Agregar Arreglo</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="table">
+                    <table class="table table-primary">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Arreglo</th>
+                                <th>Precio</th>
+                                <th>Abono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="arreglos">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var url = "http://localhost/arreglos/arreglos.php";
+
+        var aplicacion = new function () {
+            this.nombre = document.getElementById("nombre");
+            this.correo = document.getElementById("correo");
+            this.tablaArreglos = document.getElementById("arreglos");
+
+
+            this.Leer = function () {
+                var datos = "";
+
+                fetch(url)
+                    .then(r => r.json())
+                    .then((respuesta) => {
+                        console.log(respuesta);
+
+                        respuesta.map(
+                            function (arreglo, index, array) {
+                                button = "<button type='button' class='btn btn-primary'>Editar</button> <button type='button' class='btn btn-danger'>Borrar</button>"; // Aqui cambiar el id del boton para identificarlo en un listener
+                                datos += "<tr> <td>" + arreglo.id + "</td> <td>" + arreglo.nombre + "</td> <td>" + arreglo.telefono + "</td> <td>" + arreglo.arreglo + "</td> <td>" + arreglo.precio + "</td> <td>" + arreglo.abono + "</td> <td>" + arreglo.estado + "</td> <td>" + button + "</td> </tr>";
+                            }
+                        );
+                        return this.tablaArreglos.innerHTML = datos;
+                    })
+                    .catch(console.log);
+
+            };
+            this.Agregar=function () {
+                console.log(nombre.value);
+                console.log(correo.value);
+
+                var datosEnviar= {nombre:this.nombre.value, correo:this.correo.value}
+
+                fetch(url+"?insertar=1",{method:"POST", body:JSON.stringify(datosEnviar)})
+                .then(respuesta=>respuesta.json())
+                .then((datosRespuesta)=>{
+                    console.log("Insertados");
+                    this.Leer();
+
+                })
+                .catch(console.log);
+            };
+
+        }
+        aplicacion.Leer();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+CREATE DATABASE arreglos;
+USE arreglos;
+CREATE TABLE arreglos (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    telefono VARCHAR(255) NOT NULL,
+    arreglo VARCHAR(255) NOT NULL,
+    precio NUMERIC(10,2) NOT NULL,
+    abono NUMERIC(10,2) NOT NULL,
+    estado VARCHAR(255) NOT NULL
+);
