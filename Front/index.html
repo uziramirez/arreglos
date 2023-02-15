@@ -20,6 +20,81 @@
     <div class="container">
         <br />
         <div class="row">
+            
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+
+                        <form action="javascript:void(0);" method="post" onsubmit="aplicacion.Actualizar()">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalId">Editar Cliente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="mb-3">
+                              <label for="idEditar" class="form-label">ID:</label>
+                              <input type="text"
+                                class="form-control" name="idEditar" id="idEditar" aria-describedby="helpId" placeholder="ID">
+                              
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" name="nombreEditar" id="nombreEditar"
+                                    aria-describedby="helpId" placeholder="Nombre del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Telefono:</label>
+                                <input type="number" class="form-control" name="telefonoEditar" id="telefonoEditar"
+                                    aria-describedby="" placeholder="Telefono del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Arreglo:</label>
+                                <input type="text" class="form-control" name="arregloEditar" id="arregloEditar"
+                                    aria-describedby="" placeholder="Arreglo del Cliente">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Precio:</label>
+                                <input type="text" class="form-control" name="precioEditar" id="precioEditar"
+                                    aria-describedby="" placeholder="Precio Total">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Abono:</label>
+                                <input type="text" class="form-control" name="abonoEditar" id="abonoEditar"
+                                    aria-describedby="" placeholder="Abono">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Estado:</label>
+                                    <select class="form-select form-select-lg" name="estadoEditar" id="estadoEditar">
+                                        <option value="1">Pendiente</option>
+                                        <option value="2">Arreglado</option>
+                                        <option value="3">Entregado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Actualizar</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            
+           
+
 
             <div class="col-md-5">
 
@@ -108,6 +183,7 @@
 
     <script>
         var url = "http://localhost/arreglos/arreglos.php";
+        var modal=new bootstrap.Modal(document.getElementById('modalId'),{keyboard:false});
 
         var aplicacion = new function () {
             this.nombre = document.getElementById("nombre");
@@ -135,17 +211,17 @@
                                     datos+="<td>"+cliente.abono+"</td>";
                                     datos+="<td>"+cliente.estado+"</td>";
                                     datos+="<td>"+cliente.acciones+"</td>";
-                                    datos+='<td><div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info">First One</button> <button type="button" class="btn btn-danger">Second One</button></div>'+cliente.id+"</td>";
+                                    datos+='<td><div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info" onclick="aplicacion.Editar('+cliente.id+')">Editar</button> <button type="button" class="btn btn-danger" onclick="aplicacion.Borrar('+cliente.id+')" >Borrar</button></div>'+'</td>';
                                     
                                 datos+="</tr>";
-                            }
-                                function (arreglo, index, array){
-                                button = "<button type='button' class='btn btn-primary'>Editar</button> <button type='button' class='btn btn-danger'>Borrar</button>"; // Aqui cambiar el id del boton para identificarlo en un listener
-                                datos += "<tr> <td>" + arreglo.id + "</td> <td>" + arreglo.nombre + "</td> <td>" + arreglo.telefono + "</td> <td>" + arreglo.arreglo + "</td> <td>" + arreglo.precio + "</td> <td>" + arreglo.abono + "</td> <td>" + arreglo.estado + "</td> <td>" + button + "</td> </tr>";
-                            }
+                                }
+                                
+                                
+                            
                         );
                         return this.tablaArreglos.innerHTML = datos;
                     })
+                    
                     .catch(console.log);
 
             };
@@ -163,8 +239,29 @@
                 })
                 .catch(console.log);
             };
+            this.Borrar=function (id) {
+                console.log(id);
 
-        }
+                fetch(url+"?borrar="+id)
+                .then(respuesta=>respuesta.json())
+                .then((datosRespuesta)=>{
+                    this.Leer();
+                })
+                .catch(console.log);
+
+        };
+            this.Editar=function (id) {
+                console.log(id);
+
+                modal.show();
+            
+            }
+            this.Actualizar=function(){
+                console.log("Actualizar");
+            }
+
+
+    }
         aplicacion.Leer();
 
     </script>
