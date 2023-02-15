@@ -92,6 +92,11 @@
                             </tr>
                         </thead>
                         <tbody id="arreglos">
+
+                            
+                                
+                            </div>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -119,7 +124,22 @@
                         console.log(respuesta);
 
                         respuesta.map(
-                            function (arreglo, index, array) {
+                            function (cliente, index,array){
+                                datos+="<tr>";
+
+                                    datos+="<td>"+cliente.id+"</td>";
+                                    datos+="<td>"+cliente.nombre+"</td>";
+                                    datos+="<td>"+cliente.telefono+"</td>";
+                                    datos+="<td>"+cliente.arreglo+"</td>";
+                                    datos+="<td>"+cliente.precio+"</td>";
+                                    datos+="<td>"+cliente.abono+"</td>";
+                                    datos+="<td>"+cliente.estado+"</td>";
+                                    datos+="<td>"+cliente.acciones+"</td>";
+                                    datos+='<td><div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info">First One</button> <button type="button" class="btn btn-danger">Second One</button></div>'+cliente.id+"</td>";
+                                    
+                                datos+="</tr>";
+                            }
+                                function (arreglo, index, array){
                                 button = "<button type='button' class='btn btn-primary'>Editar</button> <button type='button' class='btn btn-danger'>Borrar</button>"; // Aqui cambiar el id del boton para identificarlo en un listener
                                 datos += "<tr> <td>" + arreglo.id + "</td> <td>" + arreglo.nombre + "</td> <td>" + arreglo.telefono + "</td> <td>" + arreglo.arreglo + "</td> <td>" + arreglo.precio + "</td> <td>" + arreglo.abono + "</td> <td>" + arreglo.estado + "</td> <td>" + button + "</td> </tr>";
                             }
@@ -140,7 +160,6 @@
                 .then((datosRespuesta)=>{
                     console.log("Insertados");
                     this.Leer();
-
                 })
                 .catch(console.log);
             };
