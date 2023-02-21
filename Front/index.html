@@ -26,9 +26,9 @@
             <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
                     <div class="modal-content">
-
+                        
                         <form action="javascript:void(0);" method="post" onsubmit="aplicacion.Actualizar()">
-
+                            
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalId">Editar Cliente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -37,7 +37,7 @@
                             
                             <div class="mb-3">
                               <label for="idEditar" class="form-label">ID:</label>
-                              <input type="text"
+                              <input readonly type="text"
                                 class="form-control" name="idEditar" id="idEditar" aria-describedby="helpId" placeholder="ID">
                               
                             </div>
@@ -50,25 +50,25 @@
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Telefono:</label>
-                                <input type="number" class="form-control" name="telefonoEditar" id="telefonoEditar"
+                                <input type="number" class="form-control" required name="telefonoEditar" id="telefonoEditar"
                                     aria-describedby="" placeholder="Telefono del Cliente">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Arreglo:</label>
-                                <input type="text" class="form-control" name="arregloEditar" id="arregloEditar"
+                                <input type="text" class="form-control" required name="arregloEditar" id="arregloEditar"
                                     aria-describedby="" placeholder="Arreglo del Cliente">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Precio:</label>
-                                <input type="text" class="form-control" name="precioEditar" id="precioEditar"
+                                <input type="text" class="form-control" required name="precioEditar" id="precioEditar"
                                     aria-describedby="" placeholder="Precio Total">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Abono:</label>
-                                <input type="text" class="form-control" name="abonoEditar" id="abonoEditar"
+                                <input type="text" class="form-control" required name="abonoEditar" id="abonoEditar"
                                     aria-describedby="" placeholder="Abono">
                             </div>
 
@@ -92,10 +92,6 @@
                 </div>
             </div>
             
-            
-           
-
-
             <div class="col-md-5">
 
                 <div class="card">
@@ -108,31 +104,31 @@
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Nombre:</label>
-                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                <input required type="text" class="form-control" name="nombre" id="nombre"
                                     aria-describedby="helpId" placeholder="Nombre del Cliente">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Telefono:</label>
-                                <input type="number" class="form-control" name="telefono" id="telefono"
+                                <input required type="number" class="form-control" name="telefono" id="telefono"
                                     aria-describedby="" placeholder="Telefono del Cliente">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Arreglo:</label>
-                                <input type="text" class="form-control" name="arreglo" id="arreglo"
+                                <input required type="text" class="form-control" name="arreglo" id="arreglo"
                                     aria-describedby="" placeholder="Arreglo del Cliente">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Precio:</label>
-                                <input type="text" class="form-control" name="precio" id="precio"
+                                <input required type="text" class="form-control" name="precio" id="precio"
                                     aria-describedby="" placeholder="Precio Total">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Abono:</label>
-                                <input type="text" class="form-control" name="abono" id="abono"
+                                <input required type="text" class="form-control" name="abono" id="abono"
                                     aria-describedby="" placeholder="Abono">
                             </div>
 
@@ -182,14 +178,30 @@
 
 
     <script>
+
+
+
         var url = "http://localhost/arreglos/arreglos.php";
         var modal=new bootstrap.Modal(document.getElementById('modalId'),{keyboard:false});
 
         var aplicacion = new function () {
+            this.nombreEditar = document.getElementById("nombreEditar");
+            this.correoEditar = document.getElementById("telefoneEditar");
+            this.arregloEditar = document.getElementById("arregloEditar").disabled;
+            this.precioEditar = document.getElementById("precioEditar");
+            this.abonoEditar = document.getElementById("abonoEditar");
+            this.estadoEditar = document.getElementById("estadoEditar");
+
             this.nombre = document.getElementById("nombre");
-            this.correo = document.getElementById("correo");
+            this.telefono = document.getElementById("telefono");
+            this.arreglo = document.getElementById("arreglo");
+            this.precio = document.getElementById("precio");
+            this.abono = document.getElementById("abono");
+            this.estado = document.getElementById("estado");
+
             this.tablaArreglos = document.getElementById("arreglos");
 
+            
 
             this.Leer = function () {
                 var datos = "";
@@ -212,24 +224,30 @@
                                     datos+="<td>"+cliente.estado+"</td>";
                                     datos+="<td>"+cliente.acciones+"</td>";
                                     datos+='<td><div class="btn-group" role="group" aria-label=""><button type="button" class="btn btn-info" onclick="aplicacion.Editar('+cliente.id+')">Editar</button> <button type="button" class="btn btn-danger" onclick="aplicacion.Borrar('+cliente.id+')" >Borrar</button></div>'+'</td>';
-                                    
+
                                 datos+="</tr>";
+                                
                                 }
-                                
-                                
-                            
-                        );
+                                );
+
                         return this.tablaArreglos.innerHTML = datos;
                     })
+                    
                     
                     .catch(console.log);
 
             };
             this.Agregar=function () {
                 console.log(nombre.value);
-                console.log(correo.value);
+                console.log(telefono.value);
+                console.log(arreglo.value);
+                console.log(precio.value);
+                console.log(abono.value);
+                console.log(estado.value);
 
-                var datosEnviar= {nombre:this.nombre.value, correo:this.correo.value}
+                var datosEnviar= {nombre:this.nombre.value, telefono:this.telefonoe.value}
+                var datosEnviar= {arreglo:this.arreglo.value, precio:this.precio.value}
+                var datosEnviar= {abono:this.abono.value, estado:this.estado.value}
 
                 fetch(url+"?insertar=1",{method:"POST", body:JSON.stringify(datosEnviar)})
                 .then(respuesta=>respuesta.json())
@@ -253,11 +271,40 @@
             this.Editar=function (id) {
                 console.log(id);
 
+                fetch(url+"?consultar="+id)
+                .then(respuesta=>respuesta.json())
+                .then((datosRespuesta)=>{
+                    console.log(datosRespuesta);
+
+                    this.nombreEditar.value=datosRespuesta(0)('nombre');
+                    this.idEditar.value=datosRespuesta(0)('id');
+                    this.telefonoEditar.value=datosRespuesta(0)('tefono');
+                    this.arregloEditar.value=datosRespuesta(0)('arreglo');
+                    this.precioEditar.value=datosRespuesta(0)('precio');
+                    this.abonoEditar.value=datosRespuesta(0)('abono');
+                    this.estadoEditar.value=datosRespuesta(0)('estado');
+                })
+                .catch(console.log); 
+
                 modal.show();
             
             }
             this.Actualizar=function(){
-                console.log("Actualizar");
+
+                var datosEnviar= {id:this.idEditar.value, nombre:this.nombreEditar.value, telefono:this.telefonoEditar.value}
+                var datosEnviar= {arreglo:this.arregloEditar.value, precio:this.precioEditar.value}
+                var datosEnviar= {abono:this.abonoEditar.value, estado:this.estadoEditar.value}
+
+                fetch(url+"?actualizar=1",{method:"POST", body:JSON.stringify(datosEnviar)})
+                .then(respuesta=>respuesta.json())
+                .then((datosRespuesta)=>{
+                    console.log("Actualizados");
+                    this.Leer();
+                    modal.hide();
+                })
+                .catch(console.log);
+
+                
             }
 
 
